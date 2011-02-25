@@ -1,0 +1,12 @@
+Tools used:
+
+Ruby: 1.8.7
+Rails: 2.3.8
+DB: sqlite3
+Rails Plugins: mime-types 1.16 (http://mime-types.rubyforge.org), attachment_fu (http://github.com/technoweenie/attachment_fu)
+JavaScript: jQuery 1.4.2 (http://jquery.com), uploadify 2.1.0 (http://www.uploadify.com)
+
+Run it:
+
+rake db:schema:load
+ruby scripts/server

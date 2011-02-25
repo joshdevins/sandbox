@@ -1,0 +1,53 @@
+<% content_for :head do %>
+		<%= javascript_include_tag 'swfobject' %>
+		<%= javascript_include_tag 'jquery.uploadify' %>
+
+        <%= stylesheet_link_tag 'uploadify' %>
+		
+		<% allowed_extensions = Array['aif', 'wav', 'flac', 'ogg', 'mp3', 'aac'] %>
+  
+		<% javascript_tag do %>
+			$(document).ready(function() {
+				$("#file_uploader").uploadify({
+					'uploader': '/flash/uploadify.swf',
+					'script': '<%= tracks_path %>.json',
+					'fileDataName': $('#file_uploader input:file')[0].name,
+					'auto': true,
+					'fileDesc': 'Audio files (<%= allowed_extensions.collect { |ext| "*.#{ext}" }.join(';') %>)',
+					'fileExt': '<%= allowed_extensions.collect { |ext| "*.#{ext}" }.join(';') %>', 
+					'sizeLimit': <%= 100.megabyte %>,
+					'cancelImg': '/images/cancel.png',
+					'onProgress': onUploadProgress,
+					'onComplete': onUploadComplete
+				});
+			});
+		<% end %>
+<% end %>
+
+<h1>Upload a new track</h1>
+
+<% form_for(@track, :url => { :action => "update" }) do |f| %>
+
+<%= f.error_messages %>
+<%= f.hidden_field :id %>
+
+<div id="file_browse">
+	<div id="file_uploader">
+		<%= f.label :filename %>: <%= f.file_field :uploaded_data %>
+	</div>
+</div>
+
+<p>
+	<%= f.label :title %>: <%= f.text_field :title %><br />
+</p>
+
+<p id="file_metadata_save">
+	<%= submit_tag "Save", :disabled => true, :id => "submit" %>
+</p>
+<% end %>
+
+<div id="status_div">Please click the BROWSE button to upload a file. We support AIFF, WAVE, FLAC, OGG, MP3, AAC files.</div>
+
+<p>
+<%= link_to 'Back', tracks_path %>
+</p>
