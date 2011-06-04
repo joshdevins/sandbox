@@ -1,0 +1,59 @@
+# dependencies
+require 'rake'
+require 'rake/clean'
+
+# load lib
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), *%w[lib]))
+
+###############################################################################
+# properties and helper functions
+###############################################################################
+
+def name
+  'Asset Allocation Reporter'
+end
+
+def file_name
+  'asset_allocation_reporter'
+end
+
+def version
+  line = File.read("lib/#{file_name}.rb")[/^\s*VERSION\s*=\s*.*/]
+  line.match(/.*VERSION\s*=\s*['"](.*)['"]/)[1]
+end
+
+def date
+  Date.today.to_s
+end
+
+###############################################################################
+# standard tasks
+###############################################################################
+
+task :default => [:test]
+
+require 'rake/testtask'
+desc "Test task"
+Rake::TestTask.new(:test) do |test|
+  test.libs << 'lib' << 'test'
+  test.pattern = 'test/**/test_*.rb'
+  test.verbose = true
+end
+
+desc "Generate RCov test coverage and open in your browser"
+task :coverage do
+  require 'rcov'
+  
+  sh "rm -rf coverage"
+  sh "rcov test/test_*.rb"
+  sh "open coverage/index.html"
+end
+
+require 'rdoc/task'
+desc "Build RDocs"
+Rake::RDocTask.new do |rdoc|
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title = "#{name} #{version}"
+  rdoc.rdoc_files.include('README*')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
