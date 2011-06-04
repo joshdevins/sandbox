@@ -43,7 +43,6 @@ end
 desc "Generate RCov test coverage and open in your browser"
 task :coverage do
   require 'rcov'
-  
   sh "rm -rf coverage"
   sh "rcov test/test_*.rb"
   sh "open coverage/index.html"
