@@ -22,7 +22,11 @@ module AssetAllocationReporter
     def to_s
       "#{exchange}:#{ticker}, name=#{name}, currency=#{currency}, market_cap=#{market_cap}M, sector=#{sector}, industry=#{industry}"
     end
-  
+    
+    def to_str
+      return name
+    end
+    
     # latest (net, gross) revenue by geography
   end
 end

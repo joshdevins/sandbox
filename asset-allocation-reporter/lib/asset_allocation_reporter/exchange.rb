@@ -1,23 +1,26 @@
 module AssetAllocationReporter
   class Exchange
-  
-    @@SYSTEMS = {
-      thomson_reuters: "Thomson Reuters"
-      google: "Google"
-      yahoo: "Yahoo"
-    }
-  
+    
+    attr_reader :country
+    attr_reader :currency
     attr_reader :name
-    attr_reader :symbols
+    attr_reader :google_symbol
+    attr_reader :yahoo_symbol
   
-    def initialize(name, symbols)
+    def initialize(country, currency, name, google_symbol, yahoo_symbol)
+      @country = country
+      @currency = currency
       @name = name
-      @symbols = symbols
+      @google_symbol = google_symbol
+      @yahoo_symbol = yahoo_symbol
     end
   
     def to_s
-      symbols_str = symbols.join(', ')
-      "#{name}: #{symbols_str}"
+      "#{country} #{currency} #{name} #{google_symbol} #{yahoo_symbol}"
+    end
+    
+    def to_str
+      return name
     end
   end
 end
