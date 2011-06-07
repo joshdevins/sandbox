@@ -16,6 +16,7 @@ end
 
 # 3rd party
 require 'open-uri'
+require 'nokogiri'
 
 # internal
 require_all 'asset_allocation_reporter'

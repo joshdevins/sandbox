@@ -3,12 +3,10 @@ module AssetAllocationReporter
     
     attr_reader :id
     attr_reader :name
-    attr_reader :industries
     
-    def initialize(id, name, industries)
+    def initialize(id, name)
       @id = id
       @name = name
-      @industries = industries
     end
     
     def to_s
