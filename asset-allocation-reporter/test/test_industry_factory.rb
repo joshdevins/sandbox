@@ -13,7 +13,6 @@ class TestIndustryFactory < MiniTest::Unit::TestCase
     f.close
     
     sectors = AssetAllocationReporter::IndustryFactory.parse_yahoo_industry_index(html)
-    asser
   end
   
   def test_parse_yahoo_industry_index_live
