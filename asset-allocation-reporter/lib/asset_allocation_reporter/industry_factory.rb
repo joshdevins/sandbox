@@ -4,11 +4,11 @@ module AssetAllocationReporter
     def self.parse_sector_and_industry_ids_from_url(url)
       industry_id = url.scan(/\/(\d{3}).html/).flatten[0]
       
-      rtn = OpenStruct.new
-      rtn.sector_id = Integer(industry_id[0])
-      rtn.industry_id = Integer(industry_id)
+      ids = OpenStruct.new
+      ids.sector_id = Integer(industry_id[0])
+      ids.industry_id = Integer(industry_id)
       
-      return rtn
+      return ids
     end
     
     def self.parse_yahoo_industry_index(html)
@@ -20,7 +20,7 @@ module AssetAllocationReporter
       elements = col1 + col2
       elements = elements.map {|element| element.children[0]}
 
-      industryIndex = {}
+      industry_index = {}
       current_sector = nil
       elements.each do |element|
 
@@ -42,11 +42,11 @@ module AssetAllocationReporter
           ids = parse_sector_and_industry_ids_from_url(element.attributes['href'].value)
           
           sector = Sector.new(ids.sector_id, current_sector)
-          industryIndex[ids.industry_id] = Industry.new(ids.industry_id, content, sector)
+          industry_index[ids.industry_id] = Industry.new(ids.industry_id, content, sector)
         end
       end
 
-      return industryIndex
+      return industry_index
     end
   end
 end

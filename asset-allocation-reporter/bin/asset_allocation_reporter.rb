@@ -5,13 +5,9 @@
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 require 'asset_allocation_reporter'
 
-# sectors
-sectors_html = Nokogiri::HTML(open('http://biz.yahoo.com/ic/ind_index.html'))
-sectors = AssetAllocationReporter::IndustryFactory.parse_yahoo_industry_index(sectors_html)
-
-puts "Sectors:"
-puts sectors
-puts
+# industries
+industry_index_html = Nokogiri::HTML(open('http://biz.yahoo.com/ic/ind_index.html'))
+industry_index = AssetAllocationReporter::IndustryFactory.parse_yahoo_industry_index(industry_index_html)
 
 # stocks
 aapl = AssetAllocationReporter::Stock.new("NASDAQ", "AAPL", "Apple Inc.", "USD", 310270, "Technology", "Computer Hardware")
