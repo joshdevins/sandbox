@@ -3,14 +3,14 @@ module AssetAllocationReporter
     
     def self.parse_yahoo_industry_index(html)
 
-      xpath = "/html/body/table/tbody/tr/td/table[6]/tbody/tr/td/table[2]/tbody/tr[4]/td[%i]/table/tbody/tr/td/font"
+      xpath = "/html/body/table/tr/td/table[6]/tr/td/table[2]/tr[4]/td[%i]/table/tr/td/font"
       col1 = html.xpath(xpath % 1)
       col2 = html.xpath(xpath % 3)
 
       elements = col1 + col2
       elements = elements.map {|element| element.children[0]}
 
-      sectors = {}
+      industryIndex = {}
       current_sector = nil
       elements.each do |element|
 
@@ -20,7 +20,6 @@ module AssetAllocationReporter
         if element.name == 'b'
           # create new sector in the map
           current_sector = content
-          sectors[current_sector] = Array.new
 
         elsif current_sector == nil
           raise "Current sector not set but needs to be: %s" % element.name
@@ -29,12 +28,16 @@ module AssetAllocationReporter
           raise "Unexpected element encountered: %s" % element.name
 
         else
-          # add industry to the sector
-          sectors[current_sector] << content
+          # add industry by ID
+          industryId = element.attributes['href'].value.scan(/\/(\d{3}).html/).flatten[0]
+          sectorId = industryId[0]
+          
+          sector = Sector.new(Integer(sectorId), current_sector)
+          industryIndex[industryId] = Industry.new(Integer(industryId), content, sector)
         end
       end
-      
-      return sectors
+
+      return industryIndex
     end
   end
 end

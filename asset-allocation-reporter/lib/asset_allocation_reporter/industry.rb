@@ -12,7 +12,7 @@ module AssetAllocationReporter
     end
     
     def to_s
-      return "#{id} #{name} in #{sector}"
+      return "#{id}:#{name} in #{sector}"
     end
     
     def to_str

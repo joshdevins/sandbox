@@ -6,16 +6,14 @@ module AssetAllocationReporter
     attr_reader :name
     attr_reader :currency
     attr_reader :market_cap
-    attr_reader :sector
     attr_reader :industry
   
-    def initialize(exchange, ticker, name, currency, market_cap, sector = "", industry = "")
+    def initialize(exchange, ticker, name, currency, market_cap, industry)
       @exchange = exchange
       @ticker = ticker
       @name = name
       @currency = currency
       @market_cap = market_cap
-      @sector = sector
       @industry = industry
     end
   
