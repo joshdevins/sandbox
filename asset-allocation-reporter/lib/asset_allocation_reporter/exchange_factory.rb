@@ -1,7 +1,7 @@
 module AssetAllocationReporter
   class ExchangeFactory
     
-    def self.parse_exchange_index():
+    def self.parse_exchange_index()
       
       # parse the static file of exchange details
       

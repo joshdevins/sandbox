@@ -1,6 +1,16 @@
 module AssetAllocationReporter
   class IndustryFactory
     
+    def self.parse_sector_and_industry_ids_from_url(url)
+      industry_id = url.scan(/\/(\d{3}).html/).flatten[0]
+      
+      rtn = OpenStruct.new
+      rtn.sector_id = Integer(industry_id[0])
+      rtn.industry_id = Integer(industry_id)
+      
+      return rtn
+    end
+    
     def self.parse_yahoo_industry_index(html)
 
       xpath = "/html/body/table/tr/td/table[6]/tr/td/table[2]/tr[4]/td[%i]/table/tr/td/font"
@@ -29,11 +39,10 @@ module AssetAllocationReporter
 
         else
           # add industry by ID
-          industryId = element.attributes['href'].value.scan(/\/(\d{3}).html/).flatten[0]
-          sectorId = industryId[0]
+          ids = parse_sector_and_industry_ids_from_url(element.attributes['href'].value)
           
-          sector = Sector.new(Integer(sectorId), current_sector)
-          industryIndex[industryId] = Industry.new(Integer(industryId), content, sector)
+          sector = Sector.new(ids.sector_id, current_sector)
+          industryIndex[ids.industry_id] = Industry.new(ids.industry_id, content, sector)
         end
       end
 

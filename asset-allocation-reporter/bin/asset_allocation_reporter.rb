@@ -1,14 +1,8 @@
 #!/usr/bin/env ruby
 
+# dependencies
 # make all requires relative to lib
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
-
-# dependencies
-# 3rd party
-require 'nokogiri'
-require 'open-uri'
-
-# internal
 require 'asset_allocation_reporter'
 
 # sectors

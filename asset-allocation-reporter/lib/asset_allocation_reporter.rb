@@ -13,7 +13,8 @@ end
 
 # dependencies
 # std lib
-
+require 'ostruct'
+ 
 # 3rd party
 require 'open-uri'
 require 'nokogiri'
