@@ -12,22 +12,10 @@ class TestIndustryFactory < MiniTest::Unit::TestCase
     assert_equal(8, ids.sector_id)
     assert_equal(811, ids.industry_id)
   end
-
+  
   def test_parse_yahoo_industry_index
-    
-    f = File.open("test/resources/html/finance.yahoo.com/industry_index.html")
-    html = Nokogiri::HTML(f)
-    f.close
-    
-    validate_industry_index(html)
-  end
-  
-  def test_parse_yahoo_industry_index_live
     html = Nokogiri::HTML(open('http://biz.yahoo.com/ic/ind_index.html'))
-    validate_industry_index(html)
-  end
-  
-  def validate_industry_index(html)
+
     industry_index = AssetAllocationReporter::IndustryFactory.parse_yahoo_industry_index(html)
     refute_nil(industry_index)
     
