@@ -14,7 +14,8 @@ end
 # dependencies
 # std lib
 require 'ostruct'
- 
+require 'csv'
+
 # 3rd party
 require 'open-uri'
 require 'nokogiri'
