@@ -6,10 +6,10 @@ class TestStockFactory < MiniTest::Unit::TestCase
 
   def test_parse_yahoo_profile_page
     html = Nokogiri::HTML(open('http://finance.yahoo.com/q/pr?s=AAPL+Profile'))
-    ids = parse_yahoo_profile_page(html)
+    sector_id, industry_id = parse_yahoo_profile_page(html)
     
-    assert_equal(8, ids.sector_id)
-    assert_equal(811, ids.industry_id)
+    assert_equal(8, sector_id)
+    assert_equal(811, industry_id)
   end
   
   def test_get_yahoo_stock_data

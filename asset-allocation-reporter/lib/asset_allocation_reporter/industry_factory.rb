@@ -3,12 +3,7 @@ module AssetAllocationReporter
     
     def self.parse_sector_and_industry_ids_from_url(url)
       industry_id = url.scan(/\/(\d{3}).html/).flatten[0]
-      
-      ids = OpenStruct.new
-      ids.sector_id = Integer(industry_id[0])
-      ids.industry_id = Integer(industry_id)
-      
-      return ids
+      return Integer(industry_id[0]), Integer(industry_id)
     end
     
     def self.parse_yahoo_industry_index(html)
@@ -39,10 +34,10 @@ module AssetAllocationReporter
 
         else
           # add industry by ID
-          ids = parse_sector_and_industry_ids_from_url(element.attributes['href'].value)
+          sector_id, industry_id = parse_sector_and_industry_ids_from_url(element.attributes['href'].value)
           
-          sector = Sector.new(ids.sector_id, current_sector)
-          industry_index[ids.industry_id] = Industry.new(ids.industry_id, content, sector)
+          sector = Sector.new(sector_id, current_sector)
+          industry_index[industry_id] = Industry.new(industry_id, content, sector)
         end
       end
 

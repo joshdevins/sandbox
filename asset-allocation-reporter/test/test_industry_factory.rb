@@ -6,11 +6,10 @@ class TestIndustryFactory < MiniTest::Unit::TestCase
 
   def test_parse_sector_and_industry_ids_from_url
     url = 'http://biz.yahoo.com/ic/811.html'
-    ids = AssetAllocationReporter::IndustryFactory.parse_sector_and_industry_ids_from_url(url)
+    sector_id, industry_id = AssetAllocationReporter::IndustryFactory.parse_sector_and_industry_ids_from_url(url)
     
-    refute_nil(ids)
-    assert_equal(8, ids.sector_id)
-    assert_equal(811, ids.industry_id)
+    assert_equal(8, sector_id)
+    assert_equal(811, industry_id)
   end
   
   def test_parse_yahoo_industry_index
