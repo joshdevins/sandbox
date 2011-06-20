@@ -28,6 +28,37 @@ class TestStockFactory < MiniTest::Unit::TestCase
               AssetAllocationReporter::LookupStock.new('IBM', 'NYSE'),
               AssetAllocationReporter::LookupStock.new('TRI', 'TSE')]
     
+    stocks = lookup_stocks(lookup, exchange_index, industry_index)
+    
+    assert_equal(lookup.size, stocks.size)
+    
+    # AAPL
+    assert_equal(exchange_index['NASDAQ'], stocks[0].exchange)
+    assert_equal('AAPL', stocks[0].symbol)
+    assert_equal('Apple Inc.', stocks[0].name)
+    assert_equal(811, stocks[0].industry.id)
+    
+    # GOOG
+    assert_equal(exchange_index['NASDAQ'], stocks[1].exchange)
+    assert_equal('GOOG', stocks[1].symbol)
+    assert_equal('Google Inc.', stocks[1].name)
+    assert_equal(851, stocks[1].industry.id)
+    
+    # IBM
+    assert_equal(exchange_index['NYSE'], stocks[2].exchange)
+    assert_equal('IBM', stocks[2].symbol)
+    assert_equal('International Bus', stocks[2].name)
+    assert_equal(810, stocks[2].industry.id)
+    
+    # Thomson Reuters - TSE
+    assert_equal(exchange_index['TO'], stocks[4].exchange)
+    assert_equal('TRI', stocks[4].symbol)
+    assert_equal('THOMSON REUTERS C', stocks[4].name)
+    assert_equal(760, stocks[4].industry.id)
+  end
+  
+  def lookup_stocks(lookup, exchange_index, industry_index)
+    
     # lookup proper Yahoo! symbol
     lookup.each do |s|
       
@@ -93,31 +124,7 @@ class TestStockFactory < MiniTest::Unit::TestCase
       stocks << AssetAllocationReporter::Stock.new(exchange, lookup[index].symbol, row[:name], row[:market_cap], industry)
     end
     
-    assert_equal(lookup.size, stocks.size)
-    
-    # AAPL
-    assert_equal(exchange_index['NASDAQ'], stocks[0].exchange)
-    assert_equal('AAPL', stocks[0].symbol)
-    assert_equal('Apple Inc.', stocks[0].name)
-    assert_equal(811, stocks[0].industry.id)
-    
-    # GOOG
-    assert_equal(exchange_index['NASDAQ'], stocks[1].exchange)
-    assert_equal('GOOG', stocks[1].symbol)
-    assert_equal('Google Inc.', stocks[1].name)
-    assert_equal(851, stocks[1].industry.id)
-    
-    # IBM
-    assert_equal(exchange_index['NYSE'], stocks[2].exchange)
-    assert_equal('IBM', stocks[2].symbol)
-    assert_equal('International Bus', stocks[2].name)
-    assert_equal(810, stocks[2].industry.id)
-    
-    # Thomson Reuters - TSE
-    assert_equal(exchange_index['TO'], stocks[4].exchange)
-    assert_equal('TRI', stocks[4].symbol)
-    assert_equal('THOMSON REUTERS C', stocks[4].name)
-    assert_equal(760, stocks[4].industry.id)
+    return stocks
   end
   
   def parse_yahoo_profile_page(html)
