@@ -64,17 +64,15 @@ module AssetAllocationReporter
         end
 
         # done
-        stocks << Stock.new(exchange, lookup[index].symbol, row[:name], row[:last_trade], parse_market_cap(row[:market_cap], exchange.currency), industry)
+        stocks << Stock.new(exchange, lookup[index].symbol, row[:name],
+            get_money(Float(row[:last_trade]), exchange.currency),
+            parse_market_cap(row[:market_cap], exchange.currency), industry)
       end
 
       return stocks
     end
   
     def self.parse_market_cap(market_cap, currency)
-      
-      if !Money::Currency.find(currency)
-        raise "Could not find currency: #{currency}"
-      end
       
       multiplier = 1000000 # millions by default
       if market_cap.end_with?('B')
@@ -85,8 +83,7 @@ module AssetAllocationReporter
         raise "market cap is not in a valid format: #{market_cap}"
       end
       
-      dollars = Integer(Float(market_cap[0...-1]) * multiplier)
-      return Money.new(dollars * Money::Currency.find(currency).subunit_to_unit, currency)
+      return get_money(Integer(Float(market_cap[0...-1]) * multiplier), currency)
     end
   
     def self.parse_yahoo_profile_page_for_industry_id(lookup_symbol)
@@ -96,6 +93,10 @@ module AssetAllocationReporter
       sector_id, industry_id = IndustryFactory.parse_sector_and_industry_ids_from_url(industry_html.attribute('href').value)
       
       return industry_id
+    end
+    
+    def self.get_money(units, currency)
+      return Money.new(units * Money::Currency.find(currency).subunit_to_unit, currency)
     end
   end
 end

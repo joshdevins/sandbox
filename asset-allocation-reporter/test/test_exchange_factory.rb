@@ -17,7 +17,7 @@ module AssetAllocationReporter
     
       assert_equal(lon, l)
       assert_equal('United Kingdom', lon.country)
-      assert_equal('GBP', lon.currency)
+      assert_equal('GBP', lon.currency.iso_code)
       assert_equal('London Stock Exchange', lon.name)
     
       # empty?

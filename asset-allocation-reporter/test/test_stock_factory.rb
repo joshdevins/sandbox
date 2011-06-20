@@ -12,7 +12,6 @@ module AssetAllocationReporter
     def test_parse_market_cap
       
       millions = Money.new(32.1 * 1000000 * 100, 'USD') # in cents
-      puts millions
       assert_equal(millions, StockFactory.parse_market_cap('32.1M', 'USD'))
       assert_equal(millions * 1000, StockFactory.parse_market_cap('32.1B', 'USD'))
       assert_equal(millions * 1000 * 1000, StockFactory.parse_market_cap('32.1T', 'USD'))
