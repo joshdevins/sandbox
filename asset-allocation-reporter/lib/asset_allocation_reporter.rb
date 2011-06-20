@@ -13,12 +13,12 @@ end
 
 # dependencies
 # std lib
-require 'ostruct'
+require 'open-uri'
 require 'csv'
 
 # 3rd party
-require 'open-uri'
 require 'nokogiri'
+require 'money'
 
 # internal
 require_all 'asset_allocation_reporter'

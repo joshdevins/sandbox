@@ -2,6 +2,7 @@ Dependencies
 ---
 
  * http://nokogiri.org
+ * http://money.rubyforge.org
 
 References
 ---
