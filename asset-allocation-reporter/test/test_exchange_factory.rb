@@ -18,5 +18,11 @@ class TestExchangeFactory < MiniTest::Unit::TestCase
     assert_equal('United Kingdom', lon.country)
     assert_equal('GBP', lon.currency)
     assert_equal('London Stock Exchange', lon.name)
+    
+    # empty?
+    assert_nil(exchange_index[''])
+    
+    # ws name
+    assert_equal(exchange_index['NASDAQ'], exchange_index['NasdaqNM'])
   end
 end

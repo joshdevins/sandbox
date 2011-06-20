@@ -1,8 +1,8 @@
 module AssetAllocationReporter
     class LookupStock
   
-    attr_reader :exchange
     attr_reader :symbol
+    attr_accessor :exchange
   
     def initialize(symbol, exchange = nil)
       @symbol = symbol
@@ -15,10 +15,10 @@ module AssetAllocationReporter
     
     def get_lookup_symbol
 
-      if exchange == nil || exchange.empty?
+      if (exchange == '' or exchange.yahoo_symbol == nil or exchange.yahoo_symbol == '')
         return symbol
       else
-        return symbol + '.' + exchange
+        return symbol + '.' + exchange.yahoo_symbol
       end
     end
   end
