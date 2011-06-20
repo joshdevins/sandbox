@@ -50,8 +50,7 @@ module AssetAllocationReporter
 
           # verify exchnage was found
           if (exchange == nil)
-            puts "Exchange returned from Yahoo! is not in the exchange index: #{row[:exchange]}. Skipping stock: #{lookup[index]}"
-            next
+            raise "Exchange returned from Yahoo! is not in the exchange index: #{row[:exchange]}. Skipping stock: #{lookup[index]}"
           end
         end
 
@@ -61,8 +60,7 @@ module AssetAllocationReporter
         # verify industry in index
         industry = industry_index[industry_id]
         if (industry == nil)
-          puts "Industry returned from Yahoo! is not in the industry index: #{industry_id}. Skipping stock: #{lookup[index]}"
-          next
+          raise "Industry returned from Yahoo! is not in the industry index: #{industry_id}. Skipping stock: #{lookup[index]}"
         end
 
         # done
