@@ -37,10 +37,11 @@ module AssetAllocationReporter
           market_cap: 'j1',
         }
 
-        stocks = []
         conn = open("http://finance.yahoo.com/d/quotes.csv?s=#{URI.escape(symbols_str)}&f=#{columns.values.join}")
-
         csv = CSV.parse(conn.read, :headers => columns.keys)
+
+        # build full stock objects
+        stocks = []
         csv.each_with_index do |row, index|
 
           # figure out the exchange if none was set
@@ -56,8 +57,7 @@ module AssetAllocationReporter
           end
 
           # get the profile
-          profile_html = Nokogiri::HTML(open("http://finance.yahoo.com/q/pr?s=#{lookup_symbols[index]}+Profile"))
-          sector_id, industry_id = parse_yahoo_profile_page(profile_html)
+          industry_id = parse_yahoo_profile_page_for_industry_id(lookup_symbols[index])
 
           # verify industry in index
           industry = industry_index[industry_id]
@@ -75,10 +75,13 @@ module AssetAllocationReporter
 
     private
     
-      def self.parse_yahoo_profile_page(html)
+      def self.parse_yahoo_profile_page_for_industry_id(lookup_symbol)
 
+        html = Nokogiri::HTML(open("http://finance.yahoo.com/q/pr?s=#{lookup_symbol}+Profile"))
         industry_html = html.xpath('/html/body/div/div[3]/table[2]/tr[2]/td/table[2]/tr/td/table/tr[3]/td[2]/a')
-        return IndustryFactory.parse_sector_and_industry_ids_from_url(industry_html.attribute('href').value)
+        sector_id, industry_id = IndustryFactory.parse_sector_and_industry_ids_from_url(industry_html.attribute('href').value)
+        
+        return industry_id
       end
   end
 end
