@@ -67,7 +67,7 @@ module AssetAllocationReporter
           end
 
           # done
-          stocks << AssetAllocationReporter::Stock.new(exchange, lookup[index].symbol, row[:name], row[:market_cap], industry)
+          stocks << Stock.new(exchange, lookup[index].symbol, row[:name], row[:market_cap], industry)
         end
 
         return stocks
@@ -78,7 +78,7 @@ module AssetAllocationReporter
       def self.parse_yahoo_profile_page(html)
 
         industry_html = html.xpath('/html/body/div/div[3]/table[2]/tr[2]/td/table[2]/tr/td/table/tr[3]/td[2]/a')
-        return AssetAllocationReporter::IndustryFactory.parse_sector_and_industry_ids_from_url(industry_html.attribute('href').value)
+        return IndustryFactory.parse_sector_and_industry_ids_from_url(industry_html.attribute('href').value)
       end
   end
 end
