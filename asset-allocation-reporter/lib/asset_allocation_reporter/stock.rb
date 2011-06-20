@@ -1,5 +1,5 @@
 module AssetAllocationReporter
-    class Stock
+  class Stock
   
     attr_reader :exchange
     attr_reader :symbol
