@@ -34,6 +34,7 @@ module AssetAllocationReporter
         columns = {
           exchange: 'x',
           name: 'n',
+          last_trade: 'l1',
           market_cap: 'j1',
         }
 
@@ -67,7 +68,7 @@ module AssetAllocationReporter
           end
 
           # done
-          stocks << Stock.new(exchange, lookup[index].symbol, row[:name], row[:market_cap], industry)
+          stocks << Stock.new(exchange, lookup[index].symbol, row[:name], row[:last_trade], row[:market_cap], industry)
         end
 
         return stocks
