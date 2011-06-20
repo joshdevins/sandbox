@@ -5,14 +5,27 @@ require 'asset_allocation_reporter'
 module AssetAllocationReporter
   class TestStockFactory < MiniTest::Unit::TestCase
   
+    def test_parse_yahoo_profile_page_for_industry_id      
+      assert_equal(811, StockFactory.parse_yahoo_profile_page_for_industry_id('AAPL'))
+    end
+  
+    def test_parse_market_cap
+      
+      millions = 32.1 * 1000 * 1000
+      assert_equal(millions * 1000, StockFactory.parse_market_cap('32.1B'))
+      assert_equal(millions, StockFactory.parse_market_cap('32.1M'))
+      assert_raises(RuntimeError) { StockFactory.parse_market_cap('32.1') }
+      assert_raises(RuntimeError) { StockFactory.parse_market_cap('32.1T') }
+    end
+  
     def test_get_yahoo_stock_data
-    
+      
+      # load exchange index
+      exchange_index = ExchangeFactory.parse_exchange_index('lib/asset_allocation_reporter/data/exchanges.csv')
+      
       # load industry index
       industry_index_html = Nokogiri::HTML(open('http://biz.yahoo.com/ic/ind_index.html'))
       industry_index = IndustryFactory.parse_yahoo_industry_index(industry_index_html)
-    
-      # load exchange index
-      exchange_index = ExchangeFactory.parse_exchange_index('lib/asset_allocation_reporter/data/exchanges.csv')
     
       # lookup stocks
       lookup = [LookupStock.new('AAPL', 'NASDAQ'),

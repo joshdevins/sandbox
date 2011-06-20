@@ -18,7 +18,7 @@ module AssetAllocationReporter
     end
   
     def to_s
-      "#{exchange}:#{symbol}, name=#{name}, last_trade=#{last_trade}, market_cap=#{market_cap}, industry=#{industry}"
+      "#{symbol} [exchange=#{exchange.name}, name=#{name}, last_trade=#{last_trade}, market_cap=#{market_cap}, industry=#{industry}]"
     end
     
     def to_str
