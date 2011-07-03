@@ -15,6 +15,24 @@ module AssetAllocationReporter
       @google_symbol = google_symbol
       @yahoo_symbol = yahoo_symbol
       @yahoo_ws_symbol = yahoo_ws_symbol
+      
+      self.freeze
+    end
+    
+    def ==(other)
+      return true if self.equal?(other)
+      return false unless other.class == self.class
+      return false unless other.instance_variables == self.instance_variables
+      
+      return @country == other.country && @name == other.name
+    end
+  
+    def eql?(other)
+      return self == other
+    end
+  
+    def hash
+      return "#{country} #{name}".hash
     end
     
     def to_s

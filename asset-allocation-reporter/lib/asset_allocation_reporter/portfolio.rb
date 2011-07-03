@@ -12,13 +12,6 @@ module AssetAllocationReporter
       @holdings = holdings
       @book_value = holdings.reduce(Money.new(0, @currency)) { |memo, holding| memo + holding.book_value }
     end
-  
-    def print
-      puts @name
-      puts @currency
-      @holdings.each { |holding| puts holding }
-      puts "TOTAL #{book_value.currency}#{book_value.currency.symbol}#{book_value}"
-    end
     
     def get_allocation_by
       by_x = {}
@@ -35,6 +28,25 @@ module AssetAllocationReporter
     
     def print_allocation_by(&block)
       get_allocation_by(&block).each { |e| puts "#{e[0]} #{e[1]}" }
+    end
+    
+    def merge_holdings_from!(other)
+      
+      # validate same currency
+      if (@currency != other.currency)
+      end
+      
+      # add up shares when two stocks are the same
+      holdings_hash = 
+      holdings = holdings | other.holdings
+      @book_value += other.book_value
+    end
+    
+    def print
+      puts @name
+      puts @currency
+      @holdings.each { |holding| puts holding }
+      puts "TOTAL #{book_value.currency}#{book_value.currency.symbol}#{book_value}"
     end
   end
 end
