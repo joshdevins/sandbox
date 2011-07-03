@@ -19,6 +19,7 @@ require 'csv'
 # 3rd party
 require 'nokogiri'
 require 'money'
+require 'money/bank/google_currency'
 
 # internal
 require_all 'asset_allocation_reporter'
