@@ -5,24 +5,16 @@ module AssetAllocationReporter
     attr_reader :currency
     attr_reader :stocks
   
-    def initialize(name, currency, stocks)
+    def initialize(name, currency, holdings)
       @name = name
       @currency = Money::Currency.new(currency)
-      @stocks = stocks
-      @stocks.map do |stock|
-        
-        if (stock.exchange.currency != currency) {
-          
-          stock.market_cap = stock.market_cap.exchange_to(currency)
-          stock.book_value = stock.book_value.exchange_to(currency)
-        end
-      end
+      @holdings = holdings
     end
   
     def print
       puts @name
       puts @currency
-      @stocks.each { |stock| puts stock }
+      @holdings.each { |holding| puts holding }
     end
   end
 end

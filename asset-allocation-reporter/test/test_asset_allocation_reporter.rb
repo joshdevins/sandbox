@@ -17,14 +17,18 @@ module AssetAllocationReporter
       industry_index = IndustryFactory.parse_yahoo_industry_index(industry_index_html)
 
       # stocks
-      lookup = [LookupStock.new('AAPL',),
-                LookupStock.new('GOOG'),
-                LookupStock.new('TRI', 'TSE')]
+      lookup = [
+        LookupStock.new('AAPL',),
+        LookupStock.new('GOOG'),
+        LookupStock.new('TRI', 'TSE')]
 
       stocks = StockFactory.lookup_stocks(lookup, exchange_index, industry_index)
 
       # portfolios
-      current_portfolio = Portfolio.new("CAD$ non-reg'd", :cad, stocks)
+      current_portfolio_holdings = [
+        Holding.new(stocks[0], 10, :cad), 
+        Holding.new(stocks[2], 100, :cad)]
+      current_portfolio = Portfolio.new("CAD$ non-reg'd", :cad, current_portfolio_holdings)
 
       puts "Current portfolio:"
       current_portfolio.print
