@@ -16,6 +16,7 @@ module AssetAllocationReporter
       elements = elements.map {|element| element.children[0]}
 
       industry_index = {}
+      current_sector_str = nil
       current_sector = nil
       elements.each do |element|
 
@@ -24,9 +25,10 @@ module AssetAllocationReporter
         # is this a sector heading?
         if element.name == 'b'
           # create new sector in the map
-          current_sector = content
+          current_sector_str = content
+          current_sector = nil
 
-        elsif current_sector == nil
+        elsif current_sector_str == nil
           raise "Current sector not set but needs to be: %s" % element.name
 
         elsif element.name != 'a'
@@ -36,8 +38,12 @@ module AssetAllocationReporter
           # add industry by ID
           sector_id, industry_id = parse_sector_and_industry_ids_from_url(element.attributes['href'].value)
           
-          sector = Sector.new(sector_id, current_sector)
-          industry_index[industry_id] = Industry.new(industry_id, content, sector)
+          # sensure there is only one sector instance for this ID
+          if (current_sector == nil)
+            current_sector = Sector.new(sector_id, current_sector_str)
+          end
+          
+          industry_index[industry_id] = Industry.new(industry_id, content, current_sector)
         end
       end
 

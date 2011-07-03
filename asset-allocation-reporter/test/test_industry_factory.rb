@@ -30,6 +30,9 @@ module AssetAllocationReporter
     
       assert_equal(1, sector.id)
       assert_equal('Basic Materials', sector.name)
+      
+      # sectors of the same ID should be the same instance as well
+      assert_equal(industry_index[111].sector, sector)
     end
   end
 end

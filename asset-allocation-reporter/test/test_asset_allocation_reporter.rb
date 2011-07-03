@@ -19,7 +19,7 @@ module AssetAllocationReporter
       # stocks
       lookup = [
         LookupStock.new('AAPL',),
-        LookupStock.new('DELL'),
+        LookupStock.new('GOOG'),
         LookupStock.new('TRI', 'TSE')]
 
       stocks = StockFactory.lookup_stocks(lookup, exchange_index, industry_index)
