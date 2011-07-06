@@ -5,6 +5,7 @@ module AssetAllocationReporter
     attr_reader :currency
     attr_reader :stocks
     attr_reader :book_value
+    attr_reader :holdings
   
     def initialize(name, currency, holdings)
       @name = name
@@ -30,15 +31,29 @@ module AssetAllocationReporter
       get_allocation_by(&block).each { |e| puts "#{e[0]} #{e[1]}" }
     end
     
-    def merge_holdings_from!(other)
+    def merge!(other)
       
       # validate same currency
       if (@currency != other.currency)
+        raise "Currencies do not match"
       end
       
-      # add up shares when two stocks are the same
-      holdings_hash = 
-      holdings = holdings | other.holdings
+      # copy in new holdings
+      @holdings = @holdings | other.holdings
+      
+      # merge holdings and create new holding object where two stocks are held in both portfolios
+      other_holdings_by_stock = {}
+      other.holdings.each { |holding| other_holdings_by_stock[holding.stock] = holding }
+      @holdings.each do |holding|
+        
+        other_holding = other_holdings_by_stock[holding.stock]
+        
+        # merge holdings
+        if other_holding != nil
+          holding.merge!(other_holding)
+        end
+      end
+      
       @book_value += other.book_value
     end
     

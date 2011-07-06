@@ -14,6 +14,11 @@ module AssetAllocationReporter
       @book_value = stock.last_trade.exchange_to(@currency) * shares_owned
     end
     
+    def merge!(other)
+      @shares_owned += other.shares_owned
+      @book_value += other.book_value
+    end
+    
     def ==(other)
       return true if self.equal?(other)
       return false unless other.class == self.class

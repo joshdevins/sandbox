@@ -31,7 +31,7 @@ module AssetAllocationReporter
     end
   
     def hash
-      return "#{symbol} #{exchnage.to_s}".hash
+      return "#{symbol} #{exchange.to_s}".hash
     end
   
     def to_s
