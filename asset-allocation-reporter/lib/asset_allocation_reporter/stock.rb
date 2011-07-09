@@ -1,6 +1,9 @@
 module AssetAllocationReporter
   class Stock
-  
+    
+    MILLION = 1000 * 1000
+    BILLION = MILLION * 1000
+   
     # latest (net, gross) revenue by geography
     attr_reader :exchange
     attr_reader :symbol
@@ -16,6 +19,10 @@ module AssetAllocationReporter
       @last_trade = last_trade
       @market_cap = market_cap
       @industry = industry
+    end
+  
+    def market_cap_segment
+      return self.determine_market_cap_segment(@market_cap)
     end
   
     def ==(other)
@@ -40,6 +47,23 @@ module AssetAllocationReporter
     
     def to_str
       return name
+    end
+    
+    def self.determine_market_cap_segment(market_cap)
+      return case
+      when market_cap >= Money.new(200 * BILLION, market_cap.currency)
+        :mega
+      when market_cap >= Money.new(5 * BILLION, market_cap.currency)
+        :large
+      when market_cap >= Money.new(1 * BILLION, market_cap.currency)
+        :mid
+      when market_cap >= Money.new(300 * MILLION, market_cap.currency)
+        :small
+      when market_cap >= Money.new(50 * MILLION, market_cap.currency)
+        :micro
+      else
+        :nano
+      end
     end
   end
 end
