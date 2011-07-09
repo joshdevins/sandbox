@@ -6,23 +6,13 @@ module AssetAllocationReporter
   class TestExchangeFactory < MiniTest::Unit::TestCase
     
     def test_asset_allocation_reporter
-      # set default bank to instance of GoogleCurrency
-      Money.default_bank = Money::Bank::GoogleCurrency.new
-      
-      # load exchange index
-      exchange_index = ExchangeFactory.parse_exchange_index('lib/asset_allocation_reporter/data/exchanges.csv')
-
-      # load industry index
-      industry_index_html = Nokogiri::HTML(open('http://biz.yahoo.com/ic/ind_index.html'))
-      industry_index = IndustryFactory.parse_yahoo_industry_index(industry_index_html)
-
       # stocks
       lookup = [
         LookupStock.new('AAPL',),
         LookupStock.new('GOOG'),
         LookupStock.new('TRI', 'TSE')]
 
-      stocks = StockFactory.lookup_stocks(lookup, exchange_index, industry_index)
+      stocks = StockFactory.lookup_stocks(lookup)
 
       # portfolios
       current_portfolio_holdings = [

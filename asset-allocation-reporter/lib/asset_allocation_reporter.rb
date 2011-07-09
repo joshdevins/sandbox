@@ -24,6 +24,13 @@ require 'money/bank/google_currency'
 # internal
 require_all 'asset_allocation_reporter'
 
-module AssertAllocationReporter
+module AssetAllocationReporter
   VERSION = '1'
+  
+  # set default bank to instance of GoogleCurrency
+  Money.default_bank = Money::Bank::GoogleCurrency.new
+    
+  # load exchange and industry indices
+  EXCHANGE_INDEX = ExchangeFactory.parse_exchange_index('lib/asset_allocation_reporter/data/exchanges.csv')
+  INDUSTRY_INDEX = IndustryFactory.parse_yahoo_industry_index(Nokogiri::HTML(open('http://biz.yahoo.com/ic/ind_index.html')))
 end

@@ -1,7 +1,11 @@
 module AssetAllocationReporter
   class StockFactory
+
+    def self.lookup_stocks(lookup)
+      lookup_stocks_with(lookup, AssetAllocationReporter::EXCHANGE_INDEX, AssetAllocationReporter::INDUSTRY_INDEX)
+    end
     
-    def self.lookup_stocks(lookup, exchange_index, industry_index)
+    def self.lookup_stocks_with(lookup, exchange_index, industry_index)
 
       # lookup proper Yahoo! symbol
       lookup.each do |s|

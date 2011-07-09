@@ -7,19 +7,11 @@ module AssetAllocationReporter
     
     def test_portfolio_merge
       
-      # set default bank to instance of GoogleCurrency
-      Money.default_bank = Money::Bank::GoogleCurrency.new
-      
-      # load exchange index
-      exchange_index = ExchangeFactory.parse_exchange_index('lib/asset_allocation_reporter/data/exchanges.csv')
-
-      # load industry index
-      industry_index_html = Nokogiri::HTML(open('http://biz.yahoo.com/ic/ind_index.html'))
-      industry_index = IndustryFactory.parse_yahoo_industry_index(industry_index_html)
-      
       # setup test stocks
-      aapl = Stock.new(exchange_index['NASDAQ'], "AAPL", "Apple", Money.new(5000, "CAD"), Money.new(10000000000000, "CAD"), industry_index[811])
-      ibm = Stock.new(exchange_index['NASDAQ'], "IBM", "IBM", Money.new(500, "CAD"), Money.new(10000000000, "CAD"), industry_index[811])
+      aapl = Stock.new(AssetAllocationReporter::EXCHANGE_INDEX['NASDAQ'], "AAPL", "Apple",
+                       Money.new(5000, "CAD"), Money.new(10000000000000, "CAD"), AssetAllocationReporter::INDUSTRY_INDEX[811])
+      ibm = Stock.new(AssetAllocationReporter::EXCHANGE_INDEX['NASDAQ'], "IBM", "IBM",
+                      Money.new(500, "CAD"), Money.new(10000000000, "CAD"), AssetAllocationReporter::INDUSTRY_INDEX[811])
       
       # merge same stock
       portfolio1 = Portfolio.new("portfolio1", :cad, [Holding.new(aapl, 50, :cad)])
