@@ -22,7 +22,7 @@ module AssetAllocationReporter
     end
   
     def market_cap_segment
-      return self.determine_market_cap_segment(@market_cap)
+      return Stock.determine_market_cap_segment(@market_cap)
     end
   
     def ==(other)

@@ -57,6 +57,26 @@ module AssetAllocationReporter
       @book_value += other.book_value
     end
     
+    def print_with_standard_allocations
+      puts 'Current portfolio:'
+      print
+      puts
+
+      puts 'Current portfolio allocations:'
+      puts 'by symbol'
+      print_allocation_by { |holding| holding.stock.symbol }
+      puts
+      puts 'by sector'
+      print_allocation_by { |holding| holding.stock.industry.sector }
+      puts
+      puts 'by industry'
+      print_allocation_by { |holding| holding.stock.industry }
+      puts
+      puts 'by market cap segment'
+      print_allocation_by { |holding| holding.stock.market_cap_segment }
+      puts
+    end
+    
     def print
       puts @name
       puts @currency
