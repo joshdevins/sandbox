@@ -27,8 +27,28 @@ module AssetAllocationReporter
       return by_x.sort{ |a, b| a[1].percentage <=> b[1].percentage }
     end
     
+    def print_allocation(allocation)
+      allocation.each { |e| puts "#{e[1].percentage}% #{e[0]} #{e[1].book_value.currency}#{e[1].book_value.currency.symbol}#{e[1].book_value}" }
+    end
+    
     def print_allocation_by(&block)
-      get_allocation_by(&block).each { |e| puts "#{e[0]} #{e[1]}" }
+      print_allocation(get_allocation_by(&block))
+    end
+    
+    def get_allocation_by_symbol
+      return get_allocation_by { |holding| holding.stock.symbol }
+    end
+
+    def get_allocation_by_sector
+      return get_allocation_by { |holding| holding.stock.industry.sector }
+    end
+    
+    def get_allocation_by_industry
+      return get_allocation_by { |holding| holding.stock.industry }
+    end
+    
+    def get_allocation_by_market_cap_segment
+      return get_allocation_by { |holding| holding.stock.market_cap_segment }
     end
     
     def merge!(other)
@@ -38,19 +58,29 @@ module AssetAllocationReporter
         raise "Currencies do not match"
       end
       
-      # copy in new holdings
-      @holdings = @holdings | other.holdings
+      # find stocks that need to be merged and those that can just be copied over directly
+      these_stocks = @holdings.collect { |h| h.stock }
+      other_stocks = other.holdings.collect { |h| h.stock }
       
-      # merge holdings and create new holding object where two stocks are held in both portfolios
-      other_holdings_by_stock = {}
-      other.holdings.each { |holding| other_holdings_by_stock[holding.stock] = holding }
+      new_stocks = other_stocks - these_stocks # difference
+      new_holdings = other.holdings.select { |h| new_stocks.include?(h.stock) }
+      
+      merge_stocks = other_stocks & these_stocks # intersection
+      merge_holdings = other.holdings.select { |h| merge_stocks.include?(h.stock) }
+      
+      # add new holdings
+      @holdings = @holdings | new_holdings
+      
+      # merge same stocks into new holdings
+      merge_holdings_by_stock = {}
+      merge_holdings.each { |holding| merge_holdings_by_stock[holding.stock] = holding }
       @holdings.each do |holding|
         
-        other_holding = other_holdings_by_stock[holding.stock]
+        merge_holding = merge_holdings_by_stock[holding.stock]
         
         # merge holdings
-        if other_holding != nil
-          holding.merge!(other_holding)
+        if merge_holding != nil
+          holding.merge!(merge_holding)
         end
       end
       
@@ -58,22 +88,20 @@ module AssetAllocationReporter
     end
     
     def print_with_standard_allocations
-      puts 'Current portfolio:'
+      puts "Portfolio: #{name}"
       print
       puts
-
-      puts 'Current portfolio allocations:'
       puts 'by symbol'
-      print_allocation_by { |holding| holding.stock.symbol }
+      print_allocation(get_allocation_by_symbol)
       puts
       puts 'by sector'
-      print_allocation_by { |holding| holding.stock.industry.sector }
+      print_allocation(get_allocation_by_sector)
       puts
       puts 'by industry'
-      print_allocation_by { |holding| holding.stock.industry }
+      print_allocation(get_allocation_by_industry)
       puts
       puts 'by market cap segment'
-      print_allocation_by { |holding| holding.stock.market_cap_segment }
+      print_allocation(get_allocation_by_market_cap_segment)
       puts
     end
     

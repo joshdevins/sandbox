@@ -18,7 +18,38 @@ module AssetAllocationReporter
       assert_raises(RuntimeError) { StockFactory.parse_market_cap('32.1A', 'USD') }
       assert_raises(RuntimeError) { StockFactory.parse_market_cap('32.1', 'USD') }
     end
-  
+    
+    def test_parse_yahoo_profile_page_found_but_no_data
+      
+      # BRK-B
+      assert_nil(StockFactory.parse_yahoo_profile_page_for_industry_id("BRK-B"))
+    end
+    
+    def test_parse_yahoo_profile_page_not_found
+      
+      # DH.TO
+      assert_nil(StockFactory.parse_yahoo_profile_page_for_industry_id("DH.TO"))
+    end
+    
+    def test_get_yahoo_stock_data_no_industry_or_market_cap
+
+      lookup = [LookupStock.new('BRK-B'),
+                LookupStock.new('DH', 'TSE')]
+                
+      stocks = StockFactory.lookup_stocks(lookup)
+
+      assert_equal(lookup.size, stocks.size)
+      
+      # both should have no industry data set
+      assert_equal('BRK-B', stocks[0].symbol)
+      assert_nil(stocks[0].industry)
+      refute_nil(stocks[0].market_cap)
+      
+      assert_equal('DH', stocks[1].symbol)
+      assert_nil(stocks[1].industry)
+      assert_nil(stocks[1].market_cap)
+    end
+    
     def test_get_yahoo_stock_data
     
       # lookup stocks

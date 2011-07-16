@@ -61,10 +61,16 @@ module AssetAllocationReporter
         # get the profile
         industry_id = parse_yahoo_profile_page_for_industry_id(lookup_symbols[index])
 
-        # verify industry in index
-        industry = industry_index[industry_id]
-        if (industry == nil)
-          raise "Industry returned from Yahoo! is not in the industry index: #{industry_id}. Skipping stock: #{lookup[index]}"
+        # verify industry in index, if one was found
+        if (industry_id != nil)
+          
+          industry = industry_index[industry_id]
+          if (industry == nil)
+            raise "Industry returned from Yahoo! is not in the industry index: #{industry_id}. Skipping stock: #{lookup[index]}"
+          end
+          
+        else
+          industry = nil
         end
 
         # done
@@ -77,6 +83,10 @@ module AssetAllocationReporter
     end
   
     def self.parse_market_cap(market_cap, currency)
+      
+      if market_cap == 'N/A'
+        return nil
+      end
       
       multiplier = 1000000 # millions by default
       if market_cap.end_with?('B')
@@ -94,6 +104,12 @@ module AssetAllocationReporter
 
       html = Nokogiri::HTML(open("http://finance.yahoo.com/q/pr?s=#{lookup_symbol}+Profile"))
       industry_html = html.xpath('/html/body/div/div[3]/table[2]/tr[2]/td/table[2]/tr/td/table/tr[3]/td[2]/a')
+      
+      # profile page doesn't exist or no data is found
+      if (industry_html == nil || industry_html.empty?)
+        return nil
+      end
+      
       sector_id, industry_id = IndustryFactory.parse_sector_and_industry_ids_from_url(industry_html.attribute('href').value)
       
       return industry_id
