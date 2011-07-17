@@ -36,5 +36,9 @@ module AssetAllocationReporter
     def to_str
       return name
     end
+    
+    def self.nil_object
+      return Industry.the_nil_object
+    end
   end
 end

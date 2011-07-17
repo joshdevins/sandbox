@@ -42,12 +42,12 @@ module AssetAllocationReporter
       
       # both should have no industry data set
       assert_equal('BRK-B', stocks[0].symbol)
-      assert_nil(stocks[0].industry)
+      assert_equal(AssetAllocationReporter::NIL_INDUSTRY, stocks[0].industry)
       refute_nil(stocks[0].market_cap)
       
       assert_equal('DH', stocks[1].symbol)
-      assert_nil(stocks[1].industry)
-      assert_nil(stocks[1].market_cap)
+      assert_equal(AssetAllocationReporter::NIL_INDUSTRY, stocks[1].industry)
+      refute_nil(stocks[1].market_cap)
     end
     
     def test_get_yahoo_stock_data

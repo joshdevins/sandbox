@@ -14,9 +14,9 @@ module AssetAllocationReporter
     LookupStock.new('GOOG'),
 
     LookupStock.new('AAPL'),
-    #LookupStock.new('BRK-B'),
+    LookupStock.new('BRK-B'),
     LookupStock.new('CWB', 'TSE'),
-    #LookupStock.new('DH', 'TSE'),
+    LookupStock.new('DH', 'TSE'),
     LookupStock.new('JNJ'),
     LookupStock.new('PG'),
     LookupStock.new('TRI', 'TSE'),
@@ -35,12 +35,12 @@ module AssetAllocationReporter
 
   itrade_registered_holdings = [
     Holding.new(stocks[3], 11, :usd),
-    #Holding.new(stocks[4], 50, :usd),
-    Holding.new(stocks[4], 104, :cad),
-    #Holding.new(stocks[5], 135, :cad),
-    Holding.new(stocks[5], 34, :usd),
-    Holding.new(stocks[6], 32, :usd),
-    Holding.new(stocks[7], 64, :cad),
+    Holding.new(stocks[4], 50, :usd),
+    Holding.new(stocks[5], 104, :cad),
+    Holding.new(stocks[6], 135, :cad),
+    Holding.new(stocks[7], 34, :usd),
+    Holding.new(stocks[8], 32, :usd),
+    Holding.new(stocks[9], 64, :cad),
     ]
   itrade_registered = Portfolio.new("CAD$ registered (iTrade)", :cad, itrade_registered_holdings)
   itrade_registered.print_with_standard_allocations()

@@ -27,6 +27,9 @@ require_all 'asset_allocation_reporter'
 module AssetAllocationReporter
   VERSION = '1'
   
+  NIL_SECTOR = Sector.new(0, 'n/a')
+  NIL_INDUSTRY = Industry.new(0, 'n/a', NIL_SECTOR)
+  
   # set default bank to instance of GoogleCurrency
   Money.default_bank = Money::Bank::GoogleCurrency.new
     

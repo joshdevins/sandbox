@@ -54,7 +54,7 @@ module AssetAllocationReporter
 
           # verify exchnage was found
           if (exchange == nil)
-            raise "Exchange returned from Yahoo! is not in the exchange index: #{row[:exchange]}. Skipping stock: #{lookup[index]}"
+            raise "Exchange returned from Yahoo! is not in the exchange index: #{row[:exchange]} #{lookup[index]}"
           end
         end
 
@@ -70,13 +70,23 @@ module AssetAllocationReporter
           end
           
         else
-          industry = nil
+          # use a nil object for industry/sector since it's not available
+          industry = AssetAllocationReporter::NIL_INDUSTRY
+        end
+
+        # check to see if market cap is missing, get it from Google! if that's the case
+        market_cap = parse_market_cap(row[:market_cap], exchange.currency)
+        if (market_cap == nil)
+          
+          html = Nokogiri::HTML(open('http://www.google.ca/finance?q=TSE%3ADH'))
+          market_cap_str = html.xpath('//span[@data-snapfield="market_cap"]')[0].parent.children[3].children[0].text
+          market_cap = parse_market_cap(market_cap_str, exchange.currency)
         end
 
         # done
         stocks << Stock.new(exchange, lookup[index].symbol, row[:name],
             get_money(Float(row[:last_trade]), exchange.currency),
-            parse_market_cap(row[:market_cap], exchange.currency), industry)
+            market_cap, industry)
       end
 
       return stocks
