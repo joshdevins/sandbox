@@ -27,14 +27,6 @@ module AssetAllocationReporter
       return by_x.sort{ |a, b| a[1].percentage <=> b[1].percentage }
     end
     
-    def print_allocation(allocation)
-      allocation.each { |e| puts "#{e[1].percentage}% #{e[0]} #{e[1].book_value.currency}#{e[1].book_value.currency.symbol}#{e[1].book_value}" }
-    end
-    
-    def print_allocation_by(&block)
-      print_allocation(get_allocation_by(&block))
-    end
-    
     def get_allocation_by_symbol
       return get_allocation_by { |holding| holding.stock.symbol }
     end
@@ -88,20 +80,20 @@ module AssetAllocationReporter
     end
     
     def print_with_standard_allocations
-      puts "Portfolio: #{name}"
+      puts "Portfolio:"
       print
       puts
       puts 'by symbol'
-      print_allocation(get_allocation_by_symbol)
+      Portfolio.print_allocation(get_allocation_by_symbol)
       puts
       puts 'by sector'
-      print_allocation(get_allocation_by_sector)
+      Portfolio.print_allocation(get_allocation_by_sector)
       puts
       puts 'by industry'
-      print_allocation(get_allocation_by_industry)
+      Portfolio.print_allocation(get_allocation_by_industry)
       puts
       puts 'by market cap segment'
-      print_allocation(get_allocation_by_market_cap_segment)
+      Portfolio.print_allocation(get_allocation_by_market_cap_segment)
       puts
     end
     
@@ -110,6 +102,14 @@ module AssetAllocationReporter
       puts @currency
       @holdings.each { |holding| puts holding }
       puts "TOTAL #{book_value.currency}#{book_value.currency.symbol}#{book_value}"
+    end
+    
+    def self.print_allocation(allocation)
+      allocation.each { |e| puts "#{e[1].percentage}% #{e[0]} #{e[1].book_value.currency}#{e[1].book_value.currency.symbol}#{e[1].book_value}" }
+    end
+    
+    def self.print_allocation_by(&block)
+      print_allocation(get_allocation_by(&block))
     end
   end
 end
