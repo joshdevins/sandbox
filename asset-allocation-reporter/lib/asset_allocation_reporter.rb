@@ -27,6 +27,8 @@ require_all 'asset_allocation_reporter'
 module AssetAllocationReporter
   VERSION = '1'
   
+  NIL_CDN_EXCHANGE = Exchange.new('CDN', :cad, 'NIL CAD$', 'n/a', 'n/a', 'n/a')
+  NIL_USA_EXCHANGE = Exchange.new('USA', :usd, 'NIL USD$', 'n/a', 'n/a', 'n/a')
   NIL_SECTOR = Sector.new(0, 'n/a')
   NIL_INDUSTRY = Industry.new(0, 'n/a', NIL_SECTOR)
   

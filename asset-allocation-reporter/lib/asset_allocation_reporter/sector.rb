@@ -28,7 +28,7 @@ module AssetAllocationReporter
     end
     
     def to_s
-      return "#{id} #{name}"
+      return name
     end
     
     def to_str

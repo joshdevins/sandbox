@@ -10,7 +10,7 @@ module AssetAllocationReporter
     attr_reader :name
     attr_reader :last_trade
     attr_reader :market_cap
-    attr_reader :industry
+    attr_accessor :industry
   
     def initialize(exchange, symbol, name, last_trade, market_cap, industry)
       @exchange = exchange
