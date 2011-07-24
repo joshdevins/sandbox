@@ -11,7 +11,14 @@ module AssetAllocationReporter
       @name = name
       @currency = Money::Currency.new(currency)
       @holdings = holdings
-      @book_value = holdings.reduce(Money.new(0, @currency)) { |memo, holding| memo + holding.book_value }
+      @book_value = holdings.reduce(Money.new(0, @currency)) do |memo, holding|
+        
+        if (holding == nil)
+          raise 'Holding is nil'
+        end
+        
+        memo + holding.book_value
+      end
     end
     
     def get_allocation_by

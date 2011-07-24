@@ -1,10 +1,12 @@
 module AssetAllocationReporter
     class LookupStock
   
+    attr_reader :internal_symbol
     attr_reader :symbol
     attr_accessor :exchange
   
-    def initialize(symbol, exchange = nil)
+    def initialize(internal_symbol, symbol, exchange = nil)
+      @internal_symbol = internal_symbol
       @symbol = symbol
       @exchange = exchange
     end

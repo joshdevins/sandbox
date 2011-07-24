@@ -44,7 +44,7 @@ module AssetAllocationReporter
       csv = CSV.parse(conn.read, :headers => columns.keys)
 
       # build full stock objects
-      stocks = []
+      stocks = {}
       csv.each_with_index do |row, index|
 
         # figure out the exchange if none was set
@@ -84,7 +84,7 @@ module AssetAllocationReporter
         end
 
         # done
-        stocks << Stock.new(exchange, lookup[index].symbol, row[:name],
+        stocks[lookup[index].internal_symbol] = Stock.new(exchange, lookup[index].symbol, row[:name],
             get_money(Float(row[:last_trade]), exchange.currency),
             market_cap, industry)
       end

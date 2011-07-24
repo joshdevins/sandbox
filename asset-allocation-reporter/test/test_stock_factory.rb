@@ -33,59 +33,59 @@ module AssetAllocationReporter
     
     def test_get_yahoo_stock_data_no_industry_or_market_cap
 
-      lookup = [LookupStock.new('BRK-B'),
-                LookupStock.new('DH', 'TSE')]
+      lookup = [LookupStock.new(:berkshire, 'BRK-B'),
+                LookupStock.new(:davis, 'DH', 'TSE')]
                 
       stocks = StockFactory.lookup_stocks(lookup)
 
       assert_equal(lookup.size, stocks.size)
       
       # both should have no industry data set
-      assert_equal('BRK-B', stocks[0].symbol)
-      assert_equal(AssetAllocationReporter::NIL_INDUSTRY, stocks[0].industry)
-      refute_nil(stocks[0].market_cap)
+      assert_equal('BRK-B', stocks[:berkshire].symbol)
+      assert_equal(AssetAllocationReporter::NIL_INDUSTRY, stocks[:berkshire].industry)
+      refute_nil(stocks[:berkshire].market_cap)
       
-      assert_equal('DH', stocks[1].symbol)
-      assert_equal(AssetAllocationReporter::NIL_INDUSTRY, stocks[1].industry)
-      refute_nil(stocks[1].market_cap)
+      assert_equal('DH', stocks[:davis].symbol)
+      assert_equal(AssetAllocationReporter::NIL_INDUSTRY, stocks[:davis].industry)
+      refute_nil(stocks[:davis].market_cap)
     end
     
     def test_get_yahoo_stock_data
     
       # lookup stocks
-      lookup = [LookupStock.new('AAPL', 'NASDAQ'),
-                LookupStock.new('GOOG'),
-                LookupStock.new('IBM'),
-                LookupStock.new('IBM', 'NYSE'),
-                LookupStock.new('TRI', 'TSE')]
+      lookup = [LookupStock.new(:aapl, 'AAPL', 'NASDAQ'),
+                LookupStock.new(:goog, 'GOOG'),
+                LookupStock.new(:ibm, 'IBM'),
+                LookupStock.new(:ibm_nyse, 'IBM', 'NYSE'),
+                LookupStock.new(:tri, 'TRI', 'TSE')]
     
       stocks = StockFactory.lookup_stocks(lookup)
     
       assert_equal(lookup.size, stocks.size)
     
       # AAPL
-      assert_equal(AssetAllocationReporter::EXCHANGE_INDEX['NASDAQ'], stocks[0].exchange)
-      assert_equal('AAPL', stocks[0].symbol)
-      assert_equal('Apple Inc.', stocks[0].name)
-      assert_equal(811, stocks[0].industry.id)
+      assert_equal(AssetAllocationReporter::EXCHANGE_INDEX['NASDAQ'], stocks[:aapl].exchange)
+      assert_equal('AAPL', stocks[:aapl].symbol)
+      assert_equal('Apple Inc.', stocks[:aapl].name)
+      assert_equal(811, stocks[:aapl].industry.id)
     
       # GOOG
-      assert_equal(AssetAllocationReporter::EXCHANGE_INDEX['NASDAQ'], stocks[1].exchange)
-      assert_equal('GOOG', stocks[1].symbol)
-      assert_equal('Google Inc.', stocks[1].name)
-      assert_equal(851, stocks[1].industry.id)
+      assert_equal(AssetAllocationReporter::EXCHANGE_INDEX['NASDAQ'], stocks[:goog].exchange)
+      assert_equal('GOOG', stocks[:goog].symbol)
+      assert_equal('Google Inc.', stocks[:goog].name)
+      assert_equal(851, stocks[:goog].industry.id)
     
       # IBM
-      assert_equal(AssetAllocationReporter::EXCHANGE_INDEX['NYSE'], stocks[2].exchange)
-      assert_equal('IBM', stocks[2].symbol)
-      assert_equal('International Bus', stocks[2].name)
-      assert_equal(810, stocks[2].industry.id)
+      assert_equal(AssetAllocationReporter::EXCHANGE_INDEX['NYSE'], stocks[:ibm].exchange)
+      assert_equal('IBM', stocks[:ibm].symbol)
+      assert_equal('International Bus', stocks[:ibm].name)
+      assert_equal(810, stocks[:ibm].industry.id)
     
       # Thomson Reuters - TSE
-      assert_equal(AssetAllocationReporter::EXCHANGE_INDEX['TO'], stocks[4].exchange)
-      assert_equal('TRI', stocks[4].symbol)
-      assert_equal('THOMSON REUTERS C', stocks[4].name)
-      assert_equal(760, stocks[4].industry.id)
+      assert_equal(AssetAllocationReporter::EXCHANGE_INDEX['TO'], stocks[:tri].exchange)
+      assert_equal('TRI', stocks[:tri].symbol)
+      assert_equal('THOMSON REUTERS C', stocks[:tri].name)
+      assert_equal(760, stocks[:tri].industry.id)
     end
   end
 end

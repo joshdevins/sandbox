@@ -5,6 +5,15 @@ module AssetAllocationReporter
     attr_reader :shares_owned
     
     def initialize(stock, shares_owned)
+      
+      if (stock == nil)
+        raise 'Stock is nil'
+      end
+      
+      if (stock.last_trade == nil)
+        raise "Last trade is nil for stock: #{stock.name}"
+      end
+      
       @stock = stock
       @shares_owned = shares_owned
     end
