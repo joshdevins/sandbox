@@ -18,8 +18,8 @@ module AssetAllocationReporter
     def test_portfolio_merge
       
       # merge same stock
-      portfolio1 = Portfolio.new('portfolio1', :cad, [Holding.new(@aapl, 50, :cad)])
-      portfolio2 = Portfolio.new('portfolio2', :cad, [Holding.new(@aapl, 50, :cad)])
+      portfolio1 = Portfolio.new('portfolio1', :cad, [Holding.new(@aapl, 50)])
+      portfolio2 = Portfolio.new('portfolio2', :cad, [Holding.new(@aapl, 50)])
       portfolio1.merge!(portfolio2)
       
       assert_equal(1, portfolio1.holdings.size)
@@ -28,7 +28,7 @@ module AssetAllocationReporter
       assert_equal(portfolio1.holdings[0].book_value, portfolio1.book_value)
       
       # merge two different stocks
-      portfolio2 = Portfolio.new('portfolio2', :cad, [Holding.new(@ibm, 10, :cad)])
+      portfolio2 = Portfolio.new('portfolio2', :cad, [Holding.new(@ibm, 10)])
       portfolio1.merge!(portfolio2)
       
       assert_equal(2, portfolio1.holdings.size)
@@ -38,8 +38,8 @@ module AssetAllocationReporter
     def test_portfolio_merge_into_empty
       
       portfolio0 = Portfolio.new('overall', :cad, [])
-      portfolio1 = Portfolio.new('portfolio1', :cad, [Holding.new(@aapl, 10, :cad)])
-      portfolio2 = Portfolio.new('portfolio2', :cad, [Holding.new(@ibm, 100, :cad)])
+      portfolio1 = Portfolio.new('portfolio1', :cad, [Holding.new(@aapl, 10)])
+      portfolio2 = Portfolio.new('portfolio2', :cad, [Holding.new(@ibm, 100)])
       
       portfolio0.merge!(portfolio1)
       portfolio0.merge!(portfolio2)
@@ -56,9 +56,9 @@ module AssetAllocationReporter
       
       # portfolios
       holdings = [
-        Holding.new(@aapl, 4, :cad),
-        Holding.new(@ibm, 40, :cad),
-        Holding.new(@other, 20, :cad)]
+        Holding.new(@aapl, 4),
+        Holding.new(@ibm, 40),
+        Holding.new(@other, 20)]
       portfolio = Portfolio.new('portfolio', :cad, holdings)
 
       # by symbol

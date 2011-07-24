@@ -3,20 +3,18 @@ module AssetAllocationReporter
     
     attr_reader :stock
     attr_reader :shares_owned
-    attr_reader :currency
-    attr_reader :book_value
     
-    def initialize(stock, shares_owned, currency)
+    def initialize(stock, shares_owned)
       @stock = stock
       @shares_owned = shares_owned
-      @currency = Money::Currency.new(currency)
-      
-      @book_value = stock.last_trade.exchange_to(@currency) * shares_owned
+    end
+    
+    def book_value
+      return stock.last_trade * @shares_owned
     end
     
     def merge!(other)
       @shares_owned += other.shares_owned
-      @book_value += other.book_value
     end
     
     def ==(other)
@@ -24,7 +22,7 @@ module AssetAllocationReporter
       return false unless other.class == self.class
       return false unless other.instance_variables == self.instance_variables
       
-      return @stock == other.stock && @shares_owned == other.shares_owned && @currency == other.currency
+      return @stock == other.stock && @shares_owned == other.shares_owned
     end
   
     def eql?(other)
