@@ -74,12 +74,12 @@ module AssetAllocationReporter
           industry = AssetAllocationReporter::NIL_INDUSTRY
         end
 
-        # check to see if market cap is missing, get it from Google! if that's the case
+        # check to see if market cap is missing, get it from Google if that's the case
         market_cap = parse_market_cap(row[:market_cap], exchange.currency)
-        if (market_cap == nil)
+        if market_cap.nil?
           
-          html = Nokogiri::HTML(open('http://www.google.ca/finance?q=TSE%3ADH'))
-          market_cap_str = html.xpath('//span[@data-snapfield="market_cap"]')[0].parent.children[3].children[0].text
+          html = Nokogiri::HTML(open("http://www.google.ca/finance?q=#{lookup[index].exchange.google_symbol}:#{lookup[index].symbol}"))
+          market_cap_str = html.xpath('//td[@data-snapfield="market_cap"]')[0].parent.children[2].children.first.text
           market_cap = parse_market_cap(market_cap_str, exchange.currency)
         end
 
@@ -93,6 +93,8 @@ module AssetAllocationReporter
     end
   
     def self.parse_market_cap(market_cap, currency)
+      
+      market_cap.chomp!
       
       if market_cap == 'N/A'
         return nil

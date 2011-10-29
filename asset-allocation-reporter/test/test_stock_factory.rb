@@ -13,7 +13,7 @@ module AssetAllocationReporter
       
       millions = Money.new(32.1 * 1000000 * 100, 'USD') # in cents
       assert_equal(millions, StockFactory.parse_market_cap('32.1M', 'USD'))
-      assert_equal(millions * 1000, StockFactory.parse_market_cap('32.1B', 'USD'))
+      assert_equal(millions * 1000, StockFactory.parse_market_cap("32.1B\n", 'USD'))
       assert_equal(millions * 1000 * 1000, StockFactory.parse_market_cap('32.1T', 'USD'))
       assert_raises(RuntimeError) { StockFactory.parse_market_cap('32.1A', 'USD') }
       assert_raises(RuntimeError) { StockFactory.parse_market_cap('32.1', 'USD') }
