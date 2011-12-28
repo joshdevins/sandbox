@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+require 'bundler'
+Bundler.setup
+
 # dependencies
 # make all requires relative to lib
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])

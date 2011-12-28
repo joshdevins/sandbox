@@ -1,0 +1,33 @@
+GIT
+  remote: https://github.com/RubyMoney/google_currency
+  revision: 640c8b42b089d68f3f62d506d1d73df11bdf5c28
+  ref: 640c8b42b089d68f3f62d506d1d73df11bdf5c28
+  specs:
+    google_currency (2.0.2)
+      money (~> 4)
+      multi_json (>= 1.0.0)
+
+GIT
+  remote: https://github.com/RubyMoney/money
+  revision: f2733cb2a51636ee4cf9b975d667b4be4284b864
+  ref: f2733cb2a51636ee4cf9b975d667b4be4284b864
+  specs:
+    money (4.0.1)
+      i18n (~> 0.4)
+      json
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    i18n (0.6.0)
+    json (1.6.4)
+    multi_json (1.0.4)
+    nokogiri (1.5.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  google_currency!
+  money (= 4.0.1)!
+  nokogiri

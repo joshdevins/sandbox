@@ -1,0 +1,6 @@
+source :rubygems
+
+gem 'nokogiri'
+gem 'money', '4.0.1', :git => 'https://github.com/RubyMoney/money', :ref => 'f2733cb2a51636ee4cf9b975d667b4be4284b864'
+gem 'google_currency', :git => 'https://github.com/RubyMoney/google_currency', :ref => '640c8b42b089d68f3f62d506d1d73df11bdf5c28'
+

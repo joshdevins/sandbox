@@ -1,6 +1,4 @@
-require 'minitest/autorun'
-
-require 'asset_allocation_reporter'
+require_relative 'test_helper'
 
 module AssetAllocationReporter
   class TestExchangeFactory < MiniTest::Unit::TestCase
