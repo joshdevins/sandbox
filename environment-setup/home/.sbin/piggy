@@ -1,6 +1,6 @@
 #!/bin/bash
 
-JAR_GLOB="target/amen-data-processing-*.jar"
+JAR_GLOB="target/amen-data-processing-*-uber.jar"
 JAR=`ls $JAR_GLOB`
 
 echo "Using jar: $JAR"

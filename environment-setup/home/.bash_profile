@@ -15,6 +15,9 @@ export EDITOR='vim'
 # prompt
 PS1='[\u@\h:\w]\$ '
 
+# ulimit
+ulimit -n 4096
+
 # build
 export CC=gcc-4.2
 export CXX=g++-4.2

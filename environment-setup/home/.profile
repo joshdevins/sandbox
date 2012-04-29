@@ -15,12 +15,16 @@ alias redisstart='sudo launchctl start io.redis.redis-server'
 alias redisstop='sudo launchctl stop io.redis.redis-server'
 
 # EngineYard servers
+# navy panda
+alias ssh_navypanda='ssh deploy@navypanda'
+
 # staging
 alias ssh_staging='ssh deploy@staging'
 
 # production
 alias ssh_prod_app_master='ssh deploy@prod-app-master'
-alias ssh_prod_app='ssh deploy@prod-app'
+alias ssh_prod_app_00='ssh deploy@prod-app-00'
+alias ssh_prod_app_01='ssh deploy@prod-app-01'
 alias ssh_prod_db_master='ssh deploy@prod-db-master'
 alias ssh_prod_db_slave='ssh deploy@prod-db-slave'
 alias ssh_prod_utility='ssh deploy@prod-utility'
