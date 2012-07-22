@@ -1,0 +1,56 @@
+<html>
+<head>
+<script language="JavaScript">
+
+// var slides = new Array('/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/1.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/2.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/3.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/4.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/5.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/6.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/7.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/8.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/9.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/10.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/11.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/12.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/13.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/14.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/15.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/16.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/17.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/18.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/19.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/20.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/21.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/22.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/23.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/24.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/25.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/26.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/27.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/28.swf','/resource/presentations/Cloud-Computing-Strategy-Lew-Moorman/en/slides/29.swf');
+// var times = new Array(0,32,99,139,150,168,213,271,303,423,445,502,537,561,592,682,727,801,908,916,939,976,980,1003,1063,1130,1168,1275,1481,1840);        
+
+var currentSlide = 0;
+var t;
+var timerOn = 0;
+
+function previousSlide() {
+  currentSlide--;
+  showSwf();
+}
+
+function nextSlide() {
+  currentSlide++;
+  showSwf();
+
+  // if (currentSlide + 1 < slides.length) {
+  //  t = setTimeout("nextSlide()", (times[currentSlide + 1] - times[currentSlide - 1]) * 1000);
+  //}
+}
+
+function pauseOrResumeSlides() {
+  
+  if (timerOn) {
+    clearTimeout(t);
+	
+  } else {
+    
+  }
+}
+
+function showSwf() {
+  var swf = document.getElementById('dir').value + "/" + currentSlide + ".swf";
+  document.getElementById('slides').innerHTML = "<object type=application/x-shockwave-flash width='600' height='600' loop=false><PARAM NAME=Movie value=" + swf + "></object>";
+  // alert(swf);
+}
+
+</script>
+</head>
+
+<body onLoad="pauseOrResumeSlides()">
+<div id='slides'></div>
+
+</form>
+<input type="text" id="dir" /><br />
+<input type="button" value="previous" onClick="previousSlide()" />
+<input type="button" value="next" onClick="nextSlide()" />
+<!-- <input type="button" value="pause/resume" onClick="pauseSlides()" /> -->
+</form>
+</body>
+
+</html>
